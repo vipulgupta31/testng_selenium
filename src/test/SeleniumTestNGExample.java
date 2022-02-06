@@ -45,13 +45,26 @@ public class SeleniumTestNGExample {
 		System.out.println("Navigated to URL using BeforeClass");
 	}
 
+	@Test(description = "Test case with priority", priority = 1)
+	public void testPriotity()
+	{
+		System.out.println("This case has priority 1");
+	}
+	
+	@Test(description = "Test case with priority and invocation count", priority = 2, invocationCount = 2)
+	public void testInvocationCount()
+	{
+		System.out.println("This case has priority 2 and invocation count");
+	}
+	
+	
 	@DataProvider(name = "SanityTestData")
 	public Object[][] sanityTestDataProvider() {
 		String[][] testData = { { "1", "4", "5" }, { "2", "4", "7" } };
 		return testData;
 	}
-
-	@Test(dataProvider = "SanityTestData", description = "", alwaysRun = true, groups = { "sanity" })
+	
+	@Test(dataProvider = "SanityTestData", description = "Test case with group and data provider but without priority", alwaysRun = true, groups = { "sanity" })
 	public void testSumOfTwoValues(String firstValue, String secondValue, String expectedSum) {
 		// to enter data and submit
 		driver.findElement(By.id("sum1")).sendKeys(firstValue);
