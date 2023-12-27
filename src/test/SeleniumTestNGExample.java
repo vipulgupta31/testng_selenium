@@ -12,8 +12,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class SeleniumTestNGExample {
 
 	public RemoteWebDriver driver = null;
-	String username = "<lambdatest_username>";
-	String accessKey = "<lambdatest_accesskey>";
+	String username = System.getenv("LT_USERNAME") == null ? "<lambdatest_username>" : System.getenv("LT_USERNAME");
+   	String accessKey = System.getenv("LT_ACCESS_KEY") == null ? "<lambdatest_accesskey>" : System.getenv("LT_ACCESS_KEY");
 
 	@BeforeSuite
 	public void setUp() {
