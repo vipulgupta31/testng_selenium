@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.remote.*;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import java.util.HashMap;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class SeleniumTestNGExample {
 
@@ -15,17 +17,21 @@ public class SeleniumTestNGExample {
 
 	@BeforeSuite
 	public void setUp() {
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability("browserName", "Chrome");
-		capabilities.setCapability("version", "92.0");
-		capabilities.setCapability("platform", "Windows 10");
-		capabilities.setCapability("resolution", "1024x768");
-		capabilities.setCapability("build", "TestNG Selenium Tutorial");
-		capabilities.setCapability("name", "TestNG Selenium JAVA");
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.setPlatformName("Windows 10");
+		chromeOptions.setBrowserVersion("121.0");
+		
+		HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+		ltOptions.put("username", username);
+		ltOptions.put("accessKey", accessKey);
+		ltOptions.put("project", "TestNG Selenium");
+		ltOptions.put("build", "TestNG Selenium Demonstration");
+		ltOptions.put("selenium_version", "4.0.0");
+		chromeOptions.setCapability("LT:Options", ltOptions);
 
 		try {
 			driver = new RemoteWebDriver(
-					new URL("https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub"), capabilities);
+					new URL("https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub"), chromeOptions);
 		} catch (MalformedURLException e) {
 			System.out.println("Invalid grid URL");
 		}
@@ -69,7 +75,7 @@ public class SeleniumTestNGExample {
 		// to enter data and submit
 		driver.findElement(By.id("sum1")).sendKeys(firstValue);
 		driver.findElement(By.id("sum2")).sendKeys(secondValue);
-		driver.findElement(By.xpath("//button[text()='Get values']")).click();
+		driver.findElement(By.xpath("//button[text()='Get Sum']")).click();
 
 		// to fetch actual result
 		String actualSum = driver.findElement(By.id("addmessage")).getText();
@@ -96,5 +102,4 @@ public class SeleniumTestNGExample {
 	public void testReporting() {
 		System.out.println("Test Report generated using AfterTest");
 	}
-
 }
